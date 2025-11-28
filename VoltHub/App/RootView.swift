@@ -4,7 +4,7 @@ struct RootView: View {
     let container: AppContainer
 
     var body: some View {
-        HomeView(api: container.api)
+        LoginView(api: container.api)
     }
 }
 
@@ -12,3 +12,4 @@ struct RootView: View {
     RootView(container: AppContainer())
 }
 
+ 
