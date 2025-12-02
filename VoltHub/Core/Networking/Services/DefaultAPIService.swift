@@ -34,22 +34,15 @@ final class DefaultAPIService: APIService {
         }
 
         guard let httpResponse = response as? HTTPURLResponse else {
-            throw APIError.custom("Invalid Response")
+            throw APIError.message("Invalid Response")
         }
 
-        switch httpResponse.statusCode {
-        case 200..<300:
-            break
-        case 401:
-            throw APIError.unauthorized
-        case 403:
-            throw APIError.forbidden
-        case 404:
-            throw APIError.notFound
-        case 500..<600:
-            throw APIError.serverError(httpResponse.statusCode)
-        default:
-            throw APIError.httpStatus(httpResponse.statusCode, data)
+        let status = httpResponse.statusCode
+        guard (200..<300).contains(status) else {
+            throw APIError.message(
+                extractErrorMessage(from: data) ?? "Request failed",
+                code: status
+            )
         }
 
         guard !data.isEmpty else {
@@ -62,4 +55,29 @@ final class DefaultAPIService: APIService {
             throw APIError.decoding(error)
         }
     }
+
+    private func extractErrorMessage(from data: Data) -> String? {
+        guard
+            let json = try? JSONSerialization.jsonObject(with: data)
+                as? [String: Any]
+        else {
+            return nil
+        }
+
+        if let message = json["message"] as? String {
+            return message
+        }
+        if let error = json["error"] as? String {
+            return error
+        }
+        if let errorMessage = json["errorMessage"] as? String {
+            return errorMessage
+        }
+        if let detail = json["detail"] as? String {
+            return detail
+        }
+
+        return nil
+    }
+
 }

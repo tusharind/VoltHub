@@ -66,8 +66,6 @@ struct AddEmployeeView: View {
     }
 }
 
-// MARK: - Proper Previews
-
 struct AddEmployeeView_Previews: PreviewProvider {
     static var previews: some View {
         Group {

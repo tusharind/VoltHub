@@ -5,12 +5,14 @@ final class LoginViewModel: ObservableObject {
     @Published var email: String = ""
     @Published var password: String = ""
     @Published var isPasswordVisible: Bool = false
-    @Published var state: ViewState<Void> = .idle 
+    @Published var state: ViewState<Void> = .idle
 
     private let apiService: APIService
+    private let tokenStore: AuthTokenStore
 
-    init(apiService: APIService) {
+    init(apiService: APIService, tokenStore: AuthTokenStore) {
         self.apiService = apiService
+        self.tokenStore = tokenStore
     }
 
     var isFormValid: Bool {
@@ -28,8 +30,15 @@ final class LoginViewModel: ObservableObject {
 
     func login() async {
         guard isFormValid else {
-            state = .failure(NSError(domain: "", code: 0,
-                        userInfo: [NSLocalizedDescriptionKey: "Invalid email or password"]))
+            state = .failure(
+                NSError(
+                    domain: "",
+                    code: 0,
+                    userInfo: [
+                        NSLocalizedDescriptionKey: "Invalid email or password"
+                    ]
+                )
+            )
             return
         }
 
@@ -43,11 +52,11 @@ final class LoginViewModel: ObservableObject {
         let endpoint = Endpoint(path: "/login", method: .post, body: body)
 
         do {
-            let _: LoginResponse = try await apiService.request(endpoint)
+            let response: LoginResponse = try await apiService.request(endpoint)
+            try tokenStore.save(token: response.token)
             state = .success(())
         } catch {
             state = .failure(error)
         }
     }
 }
-

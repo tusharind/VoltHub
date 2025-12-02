@@ -10,12 +10,12 @@ enum ViewState<Data> {
         if case .loading = self { return true }
         return false
     }
-    
+
     var error: Error? {
         if case .failure(let err) = self { return err }
         return nil
     }
-    
+
     var data: Data? {
         if case .success(let value) = self { return value }
         return nil

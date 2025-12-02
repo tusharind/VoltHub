@@ -19,7 +19,7 @@ final class AddEmployeeViewModel: ObservableObject {
     static func rolesAllowed(for role: Role) -> [Role] {
         switch role {
         case .Admin:
-            return [.India_Head,.State_Head, .District_Head, .City_Head]
+            return [.India_Head, .State_Head, .District_Head, .City_Head]
         case .India_Head:
             return [.State_Head, .District_Head, .City_Head]
         case .State_Head:
@@ -41,4 +41,3 @@ final class AddEmployeeViewModel: ObservableObject {
         }
     }
 }
-

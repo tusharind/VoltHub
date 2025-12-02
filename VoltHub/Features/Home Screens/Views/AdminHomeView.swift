@@ -1,13 +1,16 @@
 import SwiftUI
 
 struct AdminHomeView: View {
+    @EnvironmentObject private var theme: ThemeManager
 
     @State private var showSidebar = false
-    @State private var selection: SidebarOption? = .home
+    @State private var selection: SidebarOption? = .dashboard
 
     enum SidebarOption: String, CaseIterable, Identifiable {
-        case home = "Home"
+        case dashboard = "Dashboard"
+        case meters = "Meters"
         case employees = "Employees"
+        case operations = "Operations"
 
         var id: String { rawValue }
     }
@@ -64,6 +67,7 @@ struct AdminHomeView: View {
                     ToolbarItem(placement: .navigationBarLeading) {
                         Button(action: { showSidebar.toggle() }) {
                             Image(systemName: "line.horizontal.3")
+                                .foregroundColor(theme.current.primary)
                         }
                     }
                 }
@@ -75,12 +79,18 @@ struct AdminHomeView: View {
     @ViewBuilder
     private var contentView: some View {
         switch selection {
-        case .home, .none:
-            Text("Admin Home")
-                .font(.largeTitle)
-                .foregroundColor(.secondary)
+        case .dashboard, .none:
+            DashboardView()
+                .environmentObject(theme)
+        case .meters:
+            MetersView()
+                .environmentObject(theme)
         case .employees:
-            AddEmployeeView(currentUserRole: .Admin)
+            EmployeesView()
+                .environmentObject(theme)
+        case .operations:
+            OperationsView()
+                .environmentObject(theme)
         }
     }
 }
