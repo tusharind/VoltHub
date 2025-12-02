@@ -44,7 +44,11 @@ struct EmployeeCard: View {
             .font(.caption.weight(.semibold))
             .padding(.horizontal, 10)
             .padding(.vertical, 6)
-            .background(status == .active ? theme.current.primary.opacity(0.15) : Color.gray.opacity(0.15))
+            .background(
+                status == .active
+                    ? theme.current.primary.opacity(0.15)
+                    : Color.gray.opacity(0.15)
+            )
             .foregroundColor(status == .active ? theme.current.primary : .gray)
             .clipShape(Capsule())
     }

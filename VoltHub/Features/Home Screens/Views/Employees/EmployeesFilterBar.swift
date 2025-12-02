@@ -28,7 +28,10 @@ struct EmployeesFilterBar: View {
             Menu {
                 ForEach(EmployeeFilter.allCases) { f in
                     Button(action: { selectedFilter = f }) {
-                        Label(f.rawValue, systemImage: selectedFilter == f ? "checkmark" : "")
+                        Label(
+                            f.rawValue,
+                            systemImage: selectedFilter == f ? "checkmark" : ""
+                        )
                     }
                 }
             } label: {
@@ -40,7 +43,9 @@ struct EmployeesFilterBar: View {
                 .padding(.vertical, 10)
                 .padding(.horizontal, 12)
                 .background(Color(.systemGray6))
-                .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                .clipShape(
+                    RoundedRectangle(cornerRadius: 10, style: .continuous)
+                )
             }
             .tint(theme.current.primary)
         }
