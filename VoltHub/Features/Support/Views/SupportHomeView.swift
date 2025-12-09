@@ -4,7 +4,7 @@ struct SupportHomeView: View {
     @EnvironmentObject var themeManager: ThemeManager
     @State private var showingDrawer = false
     @State private var selectedSection: SupportSection = .tickets
-    
+
     var body: some View {
         ZStack {
             NavigationView {
@@ -18,12 +18,14 @@ struct SupportHomeView: View {
                                 }
                             }) {
                                 Image(systemName: "line.3.horizontal")
-                                    .foregroundColor(themeManager.current.primary)
+                                    .foregroundColor(
+                                        themeManager.current.primary
+                                    )
                             }
                         }
                     }
             }
-            
+
             if showingDrawer {
                 Color.black.opacity(0.3)
                     .ignoresSafeArea()
@@ -32,19 +34,19 @@ struct SupportHomeView: View {
                             showingDrawer = false
                         }
                     }
-                
+
                 HStack {
                     drawerMenu
                         .frame(width: 280)
                         .background(themeManager.current.background)
                         .transition(.move(edge: .leading))
-                    
+
                     Spacer()
                 }
             }
         }
     }
-    
+
     @ViewBuilder
     private var mainContent: some View {
         switch selectedSection {
@@ -58,27 +60,27 @@ struct SupportHomeView: View {
             QueriesView()
         }
     }
-    
+
     private var drawerMenu: some View {
         VStack(alignment: .leading, spacing: 0) {
             VStack(alignment: .leading, spacing: 8) {
                 Image(systemName: "headphones.circle.fill")
                     .font(.system(size: 50))
                     .foregroundColor(themeManager.current.primary)
-                
+
                 Text("VoltHub")
                     .font(.title2)
                     .fontWeight(.bold)
-                
+
                 Text("Support Portal")
                     .font(.subheadline)
                     .foregroundColor(.secondary)
             }
             .padding()
             .padding(.top, 20)
-            
+
             Divider()
-            
+
             ScrollView {
                 VStack(spacing: 4) {
                     ForEach(SupportSection.allCases, id: \.self) { section in
@@ -96,18 +98,18 @@ struct SupportHomeView: View {
                 }
                 .padding(.vertical, 8)
             }
-            
+
             Spacer()
-            
+
             VStack(alignment: .leading, spacing: 4) {
                 Text("Logged in as")
                     .font(.caption)
                     .foregroundColor(.secondary)
-                
+
                 Text("Support Agent")
                     .font(.subheadline)
                     .fontWeight(.medium)
-                
+
                 Text("Adani Client Team")
                     .font(.caption)
                     .foregroundColor(.secondary)
@@ -124,21 +126,25 @@ struct SupportMenuItem: View {
     let isSelected: Bool
     let action: () -> Void
     @EnvironmentObject var themeManager: ThemeManager
-    
+
     var body: some View {
         Button(action: action) {
             HStack(spacing: 12) {
                 Image(systemName: section.icon)
                     .font(.system(size: 20))
-                    .foregroundColor(isSelected ? themeManager.current.primary : .secondary)
+                    .foregroundColor(
+                        isSelected ? themeManager.current.primary : .secondary
+                    )
                     .frame(width: 24)
-                
+
                 Text(section.rawValue)
                     .font(.body)
-                    .foregroundColor(isSelected ? themeManager.current.primary : .primary)
-                
+                    .foregroundColor(
+                        isSelected ? themeManager.current.primary : .primary
+                    )
+
                 Spacer()
-                
+
                 if isSelected {
                     Circle()
                         .fill(themeManager.current.primary)
@@ -147,7 +153,10 @@ struct SupportMenuItem: View {
             }
             .padding(.horizontal)
             .padding(.vertical, 12)
-            .background(isSelected ? themeManager.current.primary.opacity(0.1) : Color.clear)
+            .background(
+                isSelected
+                    ? themeManager.current.primary.opacity(0.1) : Color.clear
+            )
             .cornerRadius(8)
         }
         .buttonStyle(PlainButtonStyle())
@@ -159,7 +168,7 @@ enum SupportSection: String, CaseIterable {
     case faqs = "FAQs"
     case knowledgeBase = "Knowledge Base"
     case queries = "Consumer Queries"
-    
+
     var icon: String {
         switch self {
         case .tickets:

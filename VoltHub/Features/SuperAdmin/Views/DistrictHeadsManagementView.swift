@@ -4,7 +4,7 @@ struct DistrictHeadsManagementView: View {
     @State private var districtHeads = DistrictHeadOverview.samples
     @State private var searchText = ""
     @State private var selectedStatus: ManagerStatus?
-    
+
     var body: some View {
         VStack(spacing: 16) {
             HStack(spacing: 12) {
@@ -12,7 +12,7 @@ struct DistrictHeadsManagementView: View {
                     .padding()
                     .background(Color(red: 0.96, green: 0.97, blue: 0.98))
                     .cornerRadius(10)
-                
+
                 Button(action: {}) {
                     HStack {
                         Image(systemName: "line.3.horizontal.decrease.circle")
@@ -27,18 +27,20 @@ struct DistrictHeadsManagementView: View {
                 }
             }
             .padding(.horizontal)
-            
+
             Text("\(filteredDistrictHeads.count) district heads")
                 .font(.subheadline)
                 .foregroundColor(.secondary)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.horizontal)
-            
+
             if filteredDistrictHeads.isEmpty {
                 EmptyStateView(
                     icon: "person.3",
                     message: "No district heads found",
-                    description: districtHeads.isEmpty ? "No district heads assigned yet" : "Try adjusting your filters"
+                    description: districtHeads.isEmpty
+                        ? "No district heads assigned yet"
+                        : "Try adjusting your filters"
                 )
             } else {
                 ScrollView {
@@ -53,40 +55,41 @@ struct DistrictHeadsManagementView: View {
         }
         .padding(.top)
     }
-    
+
     private var filteredDistrictHeads: [DistrictHeadOverview] {
         var result = districtHeads
-        
+
         if let status = selectedStatus {
             result = result.filter { $0.status == status }
         }
-        
+
         if !searchText.isEmpty {
             result = result.filter {
-                $0.name.localizedCaseInsensitiveContains(searchText) ||
-                $0.districtAssigned.localizedCaseInsensitiveContains(searchText) ||
-                $0.state.localizedCaseInsensitiveContains(searchText)
+                $0.name.localizedCaseInsensitiveContains(searchText)
+                    || $0.districtAssigned.localizedCaseInsensitiveContains(
+                        searchText
+                    ) || $0.state.localizedCaseInsensitiveContains(searchText)
             }
         }
-        
+
         return result.sorted { $0.performanceRating > $1.performanceRating }
     }
 }
 
 struct DistrictHeadManagementCard: View {
     let districtHead: DistrictHeadOverview
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack(alignment: .top) {
                 Image(systemName: "person.crop.circle.fill")
                     .font(.system(size: 60))
                     .foregroundColor(Color(red: 0.3, green: 0.4, blue: 0.5))
-                
+
                 VStack(alignment: .leading, spacing: 4) {
                     Text(districtHead.name)
                         .font(.headline)
-                    
+
                     HStack(spacing: 4) {
                         Image(systemName: "building.2.fill")
                             .font(.caption)
@@ -95,7 +98,7 @@ struct DistrictHeadManagementCard: View {
                             .font(.caption)
                             .foregroundColor(.secondary)
                     }
-                    
+
                     HStack(spacing: 4) {
                         Image(systemName: "mappin.circle.fill")
                             .font(.caption)
@@ -104,26 +107,37 @@ struct DistrictHeadManagementCard: View {
                             .font(.caption)
                             .foregroundColor(.secondary)
                     }
-                    
+
                     HStack(spacing: 4) {
                         ForEach(0..<5) { index in
-                            Image(systemName: index < Int(districtHead.performanceRating) ? "star.fill" : "star")
-                                .font(.caption)
-                                .foregroundColor(Color(red: 0.3, green: 0.4, blue: 0.5))
-                        }
-                        Text(String(format: "%.1f", districtHead.performanceRating))
+                            Image(
+                                systemName: index
+                                    < Int(districtHead.performanceRating)
+                                    ? "star.fill" : "star"
+                            )
                             .font(.caption)
-                            .foregroundColor(.secondary)
+                            .foregroundColor(
+                                Color(red: 0.3, green: 0.4, blue: 0.5)
+                            )
+                        }
+                        Text(
+                            String(
+                                format: "%.1f",
+                                districtHead.performanceRating
+                            )
+                        )
+                        .font(.caption)
+                        .foregroundColor(.secondary)
                     }
                 }
-                
+
                 Spacer()
-                
+
                 DistrictHeadStatusBadge(status: districtHead.status)
             }
-            
+
             Divider()
-            
+
             VStack(spacing: 8) {
                 HStack {
                     Image(systemName: "envelope.fill")
@@ -133,7 +147,7 @@ struct DistrictHeadManagementCard: View {
                         .font(.caption)
                     Spacer()
                 }
-                
+
                 HStack {
                     Image(systemName: "phone.fill")
                         .foregroundColor(.secondary)
@@ -142,7 +156,7 @@ struct DistrictHeadManagementCard: View {
                         .font(.caption)
                     Spacer()
                 }
-                
+
                 HStack {
                     Image(systemName: "calendar")
                         .foregroundColor(.secondary)
@@ -152,7 +166,7 @@ struct DistrictHeadManagementCard: View {
                     Spacer()
                 }
             }
-            
+
             Button(action: {}) {
                 HStack {
                     Text("View Details")
@@ -175,7 +189,7 @@ struct DistrictHeadManagementCard: View {
 
 struct DistrictHeadStatusBadge: View {
     let status: ManagerStatus
-    
+
     var body: some View {
         Text(status.rawValue)
             .font(.caption)
@@ -186,7 +200,7 @@ struct DistrictHeadStatusBadge: View {
             .foregroundColor(statusColor)
             .cornerRadius(6)
     }
-    
+
     private var statusColor: Color {
         switch status {
         case .active: return .green
@@ -201,7 +215,7 @@ struct DistrictHeadStatusFilterChip: View {
     let title: String
     let isSelected: Bool
     let action: () -> Void
-    
+
     var body: some View {
         Button(action: action) {
             Text(title)
@@ -209,7 +223,11 @@ struct DistrictHeadStatusFilterChip: View {
                 .fontWeight(isSelected ? .semibold : .regular)
                 .padding(.horizontal, 16)
                 .padding(.vertical, 8)
-                .background(isSelected ? Color(red: 0.2, green: 0.5, blue: 0.8) : Color(red: 0.94, green: 0.95, blue: 0.96))
+                .background(
+                    isSelected
+                        ? Color(red: 0.2, green: 0.5, blue: 0.8)
+                        : Color(red: 0.94, green: 0.95, blue: 0.96)
+                )
                 .foregroundColor(isSelected ? .white : .primary)
                 .cornerRadius(20)
         }

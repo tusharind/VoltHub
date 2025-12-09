@@ -5,7 +5,7 @@ struct DistrictReportsView: View {
     @State private var reports = DistrictReport.samples
     @State private var selectedType: DistrictReportType?
     @State private var showingGenerateReport = false
-    
+
     var body: some View {
         VStack(spacing: 16) {
             HStack {
@@ -24,14 +24,14 @@ struct DistrictReportsView: View {
                 Spacer()
             }
             .padding(.horizontal)
-            
+
             HStack {
                 Text("\(filteredReports.count) reports")
                     .font(.subheadline)
                     .foregroundColor(.secondary)
-                
+
                 Spacer()
-                
+
                 Button(action: { showingGenerateReport = true }) {
                     HStack {
                         Image(systemName: "plus.circle.fill")
@@ -47,12 +47,14 @@ struct DistrictReportsView: View {
                 .buttonStyle(PlainButtonStyle())
             }
             .padding(.horizontal)
-            
+
             if filteredReports.isEmpty {
                 EmptyStateView(
                     icon: "doc.text",
                     message: "No reports found",
-                    description: reports.isEmpty ? "No reports generated yet" : "Try adjusting your filters"
+                    description: reports.isEmpty
+                        ? "No reports generated yet"
+                        : "Try adjusting your filters"
                 )
             } else {
                 ScrollView {
@@ -70,14 +72,14 @@ struct DistrictReportsView: View {
             GenerateReportFormView()
         }
     }
-    
+
     private var filteredReports: [DistrictReport] {
         var result = reports
-        
+
         if let type = selectedType {
             result = result.filter { $0.reportType == type }
         }
-        
+
         return result.sorted { $0.generatedDate > $1.generatedDate }
     }
 }
@@ -85,7 +87,7 @@ struct DistrictReportsView: View {
 struct DistrictReportCard: View {
     let report: DistrictReport
     @EnvironmentObject var themeManager: ThemeManager
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack(alignment: .top) {
@@ -95,59 +97,59 @@ struct DistrictReportCard: View {
                     .frame(width: 44, height: 44)
                     .background(reportTypeColor.opacity(0.1))
                     .cornerRadius(10)
-                
+
                 VStack(alignment: .leading, spacing: 4) {
                     Text(report.reportTitle)
                         .font(.headline)
-                    
+
                     Text(report.reportType.rawValue)
                         .font(.caption)
                         .foregroundColor(.secondary)
                 }
-                
+
                 Spacer()
-                
+
                 ReportStatusBadge(status: report.status)
             }
-            
+
             Divider()
-            
+
             HStack {
                 VStack(alignment: .leading, spacing: 4) {
                     Text("Period")
                         .font(.caption)
                         .foregroundColor(.secondary)
-                    
+
                     Text(report.period)
                         .font(.subheadline)
                         .fontWeight(.semibold)
                 }
-                
+
                 Spacer()
-                
+
                 VStack(alignment: .leading, spacing: 4) {
                     Text("Generated")
                         .font(.caption)
                         .foregroundColor(.secondary)
-                    
+
                     Text(report.generatedDate, style: .date)
                         .font(.subheadline)
                         .fontWeight(.semibold)
                 }
-                
+
                 Spacer()
-                
+
                 VStack(alignment: .leading, spacing: 4) {
                     Text("Size")
                         .font(.caption)
                         .foregroundColor(.secondary)
-                    
+
                     Text(report.fileSize)
                         .font(.subheadline)
                         .fontWeight(.semibold)
                 }
             }
-            
+
             if report.status == .ready {
                 HStack(spacing: 12) {
                     Button(action: {}) {
@@ -164,7 +166,7 @@ struct DistrictReportCard: View {
                         .cornerRadius(8)
                     }
                     .buttonStyle(PlainButtonStyle())
-                    
+
                     Button(action: {}) {
                         HStack {
                             Image(systemName: "arrow.down.circle.fill")
@@ -179,14 +181,16 @@ struct DistrictReportCard: View {
                         .cornerRadius(8)
                     }
                     .buttonStyle(PlainButtonStyle())
-                    
+
                     Button(action: {}) {
                         Image(systemName: "square.and.arrow.up")
                             .font(.subheadline)
                             .foregroundColor(themeManager.current.primary)
                             .frame(width: 44)
                             .padding(.vertical, 10)
-                            .background(themeManager.current.primary.opacity(0.1))
+                            .background(
+                                themeManager.current.primary.opacity(0.1)
+                            )
                             .cornerRadius(8)
                     }
                     .buttonStyle(PlainButtonStyle())
@@ -206,7 +210,7 @@ struct DistrictReportCard: View {
         .background(Color(red: 0.96, green: 0.97, blue: 0.98))
         .cornerRadius(12)
     }
-    
+
     private var reportTypeColor: Color {
         switch report.reportType {
         case .revenue, .financial: return .green
@@ -220,7 +224,7 @@ struct DistrictReportCard: View {
 
 struct ReportStatusBadge: View {
     let status: ReportStatus
-    
+
     var body: some View {
         Text(status.rawValue)
             .font(.caption)
@@ -231,7 +235,7 @@ struct ReportStatusBadge: View {
             .foregroundColor(statusColor)
             .cornerRadius(6)
     }
-    
+
     private var statusColor: Color {
         switch status {
         case .ready: return .green
@@ -246,7 +250,7 @@ struct DistrictReportFilterChip: View {
     let isSelected: Bool
     let action: () -> Void
     @EnvironmentObject var themeManager: ThemeManager
-    
+
     var body: some View {
         Button(action: action) {
             Text(title)
@@ -254,8 +258,14 @@ struct DistrictReportFilterChip: View {
                 .fontWeight(isSelected ? .semibold : .regular)
                 .padding(.horizontal, 16)
                 .padding(.vertical, 8)
-                .background(isSelected ? themeManager.current.primary : Color(red: 0.94, green: 0.95, blue: 0.96))
-                .foregroundColor(isSelected ? themeManager.current.textOnPrimary : .primary)
+                .background(
+                    isSelected
+                        ? themeManager.current.primary
+                        : Color(red: 0.94, green: 0.95, blue: 0.96)
+                )
+                .foregroundColor(
+                    isSelected ? themeManager.current.textOnPrimary : .primary
+                )
                 .cornerRadius(20)
         }
     }
@@ -264,34 +274,43 @@ struct DistrictReportFilterChip: View {
 struct GenerateReportFormView: View {
     @EnvironmentObject var themeManager: ThemeManager
     @Environment(\.dismiss) var dismiss
-    
+
     @State private var reportType: DistrictReportType = .revenue
     @State private var startDate = Date()
     @State private var endDate = Date()
     @State private var includeCities: [String] = []
-    
+
     var body: some View {
         NavigationView {
             Form {
                 Section(header: Text("Report Type")) {
                     Picker("Type", selection: $reportType) {
-                        ForEach(DistrictReportType.allCases, id: \.self) { type in
+                        ForEach(DistrictReportType.allCases, id: \.self) {
+                            type in
                             Text(type.rawValue).tag(type)
                         }
                     }
                 }
-                
+
                 Section(header: Text("Period")) {
-                    DatePicker("Start Date", selection: $startDate, displayedComponents: .date)
-                    DatePicker("End Date", selection: $endDate, displayedComponents: .date)
+                    DatePicker(
+                        "Start Date",
+                        selection: $startDate,
+                        displayedComponents: .date
+                    )
+                    DatePicker(
+                        "End Date",
+                        selection: $endDate,
+                        displayedComponents: .date
+                    )
                 }
-                
+
                 Section(header: Text("Options")) {
                     Toggle("Include all cities", isOn: .constant(true))
                     Toggle("Include worker details", isOn: .constant(false))
                     Toggle("Include financial breakdown", isOn: .constant(true))
                 }
-                
+
                 Section {
                     Button(action: handleGenerate) {
                         Text("Generate Report")
@@ -311,7 +330,7 @@ struct GenerateReportFormView: View {
             }
         }
     }
-    
+
     private func handleGenerate() {
         dismiss()
     }

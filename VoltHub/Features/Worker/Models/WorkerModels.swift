@@ -3,14 +3,14 @@ import Foundation
 enum TaskType: String, CaseIterable, Identifiable {
     case takeReading = "Take Reading"
     case installMeter = "Install Meter"
-    
+
     var id: String { rawValue }
 }
 
 enum TaskStatus: String, CaseIterable {
     case pending = "Pending"
     case completed = "Completed"
-    
+
     var id: String { rawValue }
 }
 
@@ -23,7 +23,7 @@ struct WorkerTask: Identifiable {
     var status: TaskStatus
     let assignedDate: Date
     let location: String?
-    
+
     init(
         id: String = UUID().uuidString,
         title: String,
@@ -50,7 +50,8 @@ extension WorkerTask {
     static let samples: [WorkerTask] = [
         WorkerTask(
             title: "Monthly Reading - Building A",
-            description: "Take monthly electricity reading for Building A, Floor 3",
+            description:
+                "Take monthly electricity reading for Building A, Floor 3",
             meterID: "MTR-001",
             type: .takeReading,
             status: .pending,
@@ -71,6 +72,6 @@ extension WorkerTask {
             type: .takeReading,
             status: .completed,
             location: "Commercial Zone, Block C"
-        )
+        ),
     ]
 }

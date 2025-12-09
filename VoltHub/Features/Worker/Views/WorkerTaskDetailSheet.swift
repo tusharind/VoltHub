@@ -78,7 +78,6 @@ struct WorkerTaskDetailSheet: View {
                     .background(Color(red: 0.94, green: 0.95, blue: 0.96))
                     .cornerRadius(12)
 
-                    // Image Upload Section (only for pending tasks)
                     if task.status == .pending {
                         VStack(alignment: .leading, spacing: 12) {
                             Text("Upload Images")
@@ -210,7 +209,7 @@ struct WorkerTaskDetailSheet: View {
                         }
                         .padding(.horizontal)
                     } else {
-                        // Completed Status
+
                         VStack(spacing: 12) {
                             Image(systemName: "checkmark.circle.fill")
                                 .font(.system(size: 60))

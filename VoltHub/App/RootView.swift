@@ -10,7 +10,6 @@ struct RootView: View {
                 SuperAdminHomeView()
             } else {
                 //LoginView(api: container.api, tokenStore: container.tokenStore)
-                //AdminHomeView()
                 //WorkersHomeView()
                 //ConsumerHomeView()
                 //CityHeadHomeView()
