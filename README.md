@@ -28,7 +28,7 @@ VoltHub is an iOS SwiftUI prototype that maps the main user journeys for a utili
 - Because the UI is static today, networking and authentication code are not wired to live services. When adding backend integration, start by connecting the `APIService` implementation and updating the role flows to consume real data.
 - If you want to preview other roles quickly, switch the view presented in `RootView` (e.g., `CityHeadHomeView()`, `ConsumerHomeView()`, `WorkersHomeView()`).
 
-### Future Enhancements (suggested)
+### Future Enhancements 
 - Hook up real authentication and session handling.
 - Replace mocked/static data with API-driven content per role.
 - Add navigation/routing that mirrors backend permissions.
