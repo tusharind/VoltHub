@@ -7,7 +7,12 @@ struct LoginView: View {
 
     init(api: APIService, tokenStore: AuthTokenStore) {
         self.api = api
-        _viewModel = StateObject(wrappedValue: LoginViewModel(apiService: api, tokenStore: tokenStore))
+        _viewModel = StateObject(
+            wrappedValue: LoginViewModel(
+                apiService: api,
+                tokenStore: tokenStore
+            )
+        )
     }
 
     var body: some View {
@@ -23,17 +28,24 @@ struct LoginView: View {
                         Button(action: { theme.set(th) }) {
                             HStack {
                                 Text(th.rawValue.capitalized)
-                                if th == theme.current { Image(systemName: "checkmark") }
+                                if th == theme.current {
+                                    Image(systemName: "checkmark")
+                                }
                             }
                         }
                     }
                 } label: {
-                    Label(theme.current.rawValue.capitalized, systemImage: "paintpalette.fill")
-                        .labelStyle(.titleAndIcon)
-                        .padding(.horizontal, 10)
-                        .padding(.vertical, 6)
-                        .background(Color(.systemGray6))
-                        .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                    Label(
+                        theme.current.rawValue.capitalized,
+                        systemImage: "paintpalette.fill"
+                    )
+                    .labelStyle(.titleAndIcon)
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 6)
+                    .background(Color(red: 0.96, green: 0.97, blue: 0.98))
+                    .clipShape(
+                        RoundedRectangle(cornerRadius: 8, style: .continuous)
+                    )
                 }
                 .tint(theme.current.primary)
             }
@@ -42,7 +54,7 @@ struct LoginView: View {
                 .autocapitalization(.none)
                 .keyboardType(.emailAddress)
                 .padding()
-                .background(Color(.systemGray6))
+                .background(Color(red: 0.96, green: 0.97, blue: 0.98))
                 .cornerRadius(8)
 
             ZStack(alignment: .trailing) {
@@ -54,7 +66,7 @@ struct LoginView: View {
                     }
                 }
                 .padding()
-                .background(Color(.systemGray6))
+                .background(Color(red: 0.96, green: 0.97, blue: 0.98))
                 .cornerRadius(8)
 
                 Button(action: {
@@ -64,7 +76,7 @@ struct LoginView: View {
                         systemName: viewModel.isPasswordVisible
                             ? "eye.slash" : "eye"
                     )
-                    .foregroundColor(.gray)
+                    .foregroundColor(Color(red: 0.3, green: 0.4, blue: 0.5))
                     .padding(.trailing, 10)
                 }
             }
@@ -83,18 +95,36 @@ struct LoginView: View {
                         .frame(maxWidth: .infinity)
                         .padding()
                 } else {
-                    let isDisabled = (!viewModel.isFormValid || viewModel.state.isLoading)
+                    let isDisabled =
+                        (!viewModel.isFormValid || viewModel.state.isLoading)
                     Text("Login")
                         .font(.headline.weight(.semibold))
                         .foregroundColor(theme.current.textOnPrimary)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 14)
-                        .background(theme.current.primary.opacity(isDisabled ? 0.4 : 1.0))
-                        .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
-                        .shadow(color: theme.current.primary.opacity(isDisabled ? 0.15 : 0.3), radius: isDisabled ? 4 : 8, x: 0, y: isDisabled ? 2 : 6)
+                        .background(
+                            theme.current.primary.opacity(
+                                isDisabled ? 0.4 : 1.0
+                            )
+                        )
+                        .clipShape(
+                            RoundedRectangle(
+                                cornerRadius: 12,
+                                style: .continuous
+                            )
+                        )
+                        .shadow(
+                            color: theme.current.primary.opacity(
+                                isDisabled ? 0.15 : 0.3
+                            ),
+                            radius: isDisabled ? 4 : 8,
+                            x: 0,
+                            y: isDisabled ? 2 : 6
+                        )
                 }
             }
             .disabled(!viewModel.isFormValid || viewModel.state.isLoading)
+
         }
         .padding()
         .tint(theme.current.primary)

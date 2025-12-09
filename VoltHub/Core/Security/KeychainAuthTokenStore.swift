@@ -16,12 +16,17 @@ final class KeychainAuthTokenStore: AuthTokenStore {
         let attributes: [String: Any] = [
             kSecValueData as String: tokenData
         ]
-        let status = SecItemUpdate(query as CFDictionary, attributes as CFDictionary)
+        let status = SecItemUpdate(
+            query as CFDictionary,
+            attributes as CFDictionary
+        )
         if status == errSecItemNotFound {
             var addQuery = query
             addQuery[kSecValueData as String] = tokenData
             let addStatus = SecItemAdd(addQuery as CFDictionary, nil)
-            guard addStatus == errSecSuccess else { throw KeychainError(status: addStatus) }
+            guard addStatus == errSecSuccess else {
+                throw KeychainError(status: addStatus)
+            }
         } else if status != errSecSuccess {
             throw KeychainError(status: status)
         }
@@ -33,14 +38,17 @@ final class KeychainAuthTokenStore: AuthTokenStore {
             kSecAttrService as String: service,
             kSecAttrAccount as String: account,
             kSecReturnData as String: true,
-            kSecMatchLimit as String: kSecMatchLimitOne
+            kSecMatchLimit as String: kSecMatchLimitOne,
         ]
         var result: AnyObject?
         let status = SecItemCopyMatching(query as CFDictionary, &result)
         if status == errSecItemNotFound { return nil }
-        guard status == errSecSuccess else { throw KeychainError(status: status) }
+        guard status == errSecSuccess else {
+            throw KeychainError(status: status)
+        }
         guard let data = result as? Data,
-              let token = String(data: data, encoding: .utf8) else { return nil }
+            let token = String(data: data, encoding: .utf8)
+        else { return nil }
         return token
     }
 
@@ -59,5 +67,7 @@ final class KeychainAuthTokenStore: AuthTokenStore {
 
 struct KeychainError: Error, LocalizedError {
     let status: OSStatus
-    var errorDescription: String? { SecCopyErrorMessageString(status, nil) as String? }
+    var errorDescription: String? {
+        SecCopyErrorMessageString(status, nil) as String?
+    }
 }

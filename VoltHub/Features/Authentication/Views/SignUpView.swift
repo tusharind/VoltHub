@@ -23,7 +23,7 @@ struct SignUpView: View {
                         .textContentType(.name)
                         .autocapitalization(.words)
                         .padding()
-                        .background(Color(.systemGray6))
+                        .background(Color(red: 0.96, green: 0.97, blue: 0.98))
                         .cornerRadius(8)
 
                     TextField("Email", text: $viewModel.email)
@@ -31,7 +31,7 @@ struct SignUpView: View {
                         .keyboardType(.emailAddress)
                         .textContentType(.emailAddress)
                         .padding()
-                        .background(Color(.systemGray6))
+                        .background(Color(red: 0.96, green: 0.97, blue: 0.98))
                         .cornerRadius(8)
 
                     ZStack(alignment: .trailing) {
@@ -46,7 +46,7 @@ struct SignUpView: View {
                             }
                         }
                         .padding()
-                        .background(Color(.systemGray6))
+                        .background(Color(red: 0.96, green: 0.97, blue: 0.98))
                         .cornerRadius(8)
 
                         Button(action: { viewModel.isPasswordVisible.toggle() })
@@ -75,7 +75,7 @@ struct SignUpView: View {
                             }
                         }
                         .padding()
-                        .background(Color(.systemGray6))
+                        .background(Color(red: 0.96, green: 0.97, blue: 0.98))
                         .cornerRadius(8)
 
                         Button(action: {
