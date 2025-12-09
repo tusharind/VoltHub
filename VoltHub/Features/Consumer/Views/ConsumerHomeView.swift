@@ -4,7 +4,7 @@ struct ConsumerHomeView: View {
     @EnvironmentObject var themeManager: ThemeManager
     @State private var showingDrawer = false
     @State private var selectedSection: ConsumerSection = .bills
-    
+
     var body: some View {
         ZStack {
             NavigationView {
@@ -18,12 +18,14 @@ struct ConsumerHomeView: View {
                                 }
                             }) {
                                 Image(systemName: "line.3.horizontal")
-                                    .foregroundColor(themeManager.current.primary)
+                                    .foregroundColor(
+                                        themeManager.current.primary
+                                    )
                             }
                         }
                     }
             }
-            
+
             if showingDrawer {
                 Color.black.opacity(0.3)
                     .ignoresSafeArea()
@@ -32,19 +34,19 @@ struct ConsumerHomeView: View {
                             showingDrawer = false
                         }
                     }
-                
+
                 HStack {
                     drawerMenu
                         .frame(width: 280)
                         .background(themeManager.current.background)
                         .transition(.move(edge: .leading))
-                    
+
                     Spacer()
                 }
             }
         }
     }
-    
+
     @ViewBuilder
     private var mainContent: some View {
         switch selectedSection {
@@ -56,27 +58,27 @@ struct ConsumerHomeView: View {
             ComplaintsView()
         }
     }
-    
+
     private var drawerMenu: some View {
         VStack(alignment: .leading, spacing: 0) {
             VStack(alignment: .leading, spacing: 8) {
                 Image(systemName: "bolt.circle.fill")
                     .font(.system(size: 50))
                     .foregroundColor(themeManager.current.primary)
-                
+
                 Text("VoltHub")
                     .font(.title2)
                     .fontWeight(.bold)
-                
+
                 Text("Consumer Portal")
                     .font(.subheadline)
                     .foregroundColor(.secondary)
             }
             .padding()
             .padding(.top, 20)
-            
+
             Divider()
-            
+
             ScrollView {
                 VStack(spacing: 4) {
                     ForEach(ConsumerSection.allCases, id: \.self) { section in
@@ -94,18 +96,18 @@ struct ConsumerHomeView: View {
                 }
                 .padding(.vertical, 8)
             }
-            
+
             Spacer()
-            
+
             VStack(alignment: .leading, spacing: 4) {
                 Text("Logged in as")
                     .font(.caption)
                     .foregroundColor(.secondary)
-                
+
                 Text("Consumer User")
                     .font(.subheadline)
                     .fontWeight(.medium)
-                
+
                 Text("ACC123456")
                     .font(.caption)
                     .foregroundColor(.secondary)
@@ -122,21 +124,25 @@ struct DrawerMenuItem: View {
     let isSelected: Bool
     let action: () -> Void
     @EnvironmentObject var themeManager: ThemeManager
-    
+
     var body: some View {
         Button(action: action) {
             HStack(spacing: 12) {
                 Image(systemName: section.icon)
                     .font(.system(size: 20))
-                    .foregroundColor(isSelected ? themeManager.current.primary : .secondary)
+                    .foregroundColor(
+                        isSelected ? themeManager.current.primary : .secondary
+                    )
                     .frame(width: 24)
-                
+
                 Text(section.rawValue)
                     .font(.body)
-                    .foregroundColor(isSelected ? themeManager.current.primary : .primary)
-                
+                    .foregroundColor(
+                        isSelected ? themeManager.current.primary : .primary
+                    )
+
                 Spacer()
-                
+
                 if isSelected {
                     Circle()
                         .fill(themeManager.current.primary)
@@ -145,7 +151,10 @@ struct DrawerMenuItem: View {
             }
             .padding(.horizontal)
             .padding(.vertical, 12)
-            .background(isSelected ? themeManager.current.primary.opacity(0.1) : Color.clear)
+            .background(
+                isSelected
+                    ? themeManager.current.primary.opacity(0.1) : Color.clear
+            )
             .cornerRadius(8)
         }
         .buttonStyle(PlainButtonStyle())
@@ -156,7 +165,7 @@ enum ConsumerSection: String, CaseIterable {
     case bills = "Bills"
     case newConnection = "New Connection"
     case complaints = "Complaints"
-    
+
     var icon: String {
         switch self {
         case .bills:

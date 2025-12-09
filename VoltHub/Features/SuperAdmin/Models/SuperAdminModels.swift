@@ -1,7 +1,5 @@
 import Foundation
 
-// MARK: - National Dashboard Models
-
 struct NationalDashboard: Identifiable {
     let id = UUID()
     let totalDistricts: Int
@@ -15,8 +13,6 @@ struct NationalDashboard: Identifiable {
     let avgCollectionRate: Double
     let activeStates: Int
 }
-
-// MARK: - District Overview Models
 
 struct DistrictOverview: Identifiable {
     let id = UUID()
@@ -40,7 +36,7 @@ enum DistrictHealthStatus: String, CaseIterable {
     case average = "Average"
     case needsImprovement = "Needs Improvement"
     case critical = "Critical"
-    
+
     var color: String {
         switch self {
         case .excellent: return "green"
@@ -51,8 +47,6 @@ enum DistrictHealthStatus: String, CaseIterable {
         }
     }
 }
-
-// MARK: - State Performance Models
 
 struct StatePerformance: Identifiable {
     let id = UUID()
@@ -73,8 +67,6 @@ enum StateStatus: String, CaseIterable {
     case lagging = "Lagging"
 }
 
-// MARK: - District Head Models
-
 struct DistrictHeadOverview: Identifiable {
     let id = UUID()
     let name: String
@@ -94,7 +86,7 @@ enum ManagerStatus: String, CaseIterable {
     case onLeave = "On Leave"
     case training = "Training"
     case suspended = "Suspended"
-    
+
     var color: String {
         switch self {
         case .active: return "green"
@@ -104,8 +96,6 @@ enum ManagerStatus: String, CaseIterable {
         }
     }
 }
-
-// MARK: - National Report Models
 
 struct NationalReport: Identifiable {
     let id = UUID()
@@ -125,7 +115,7 @@ enum NationalReportType: String, CaseIterable {
     case compliance = "Compliance Report"
     case strategic = "Strategic Overview"
     case incident = "Incident Report"
-    
+
     var icon: String {
         switch self {
         case .financial: return "chart.pie.fill"
@@ -145,8 +135,6 @@ enum ReportScope: String, CaseIterable {
     case custom = "Custom"
 }
 
-// MARK: - System Settings Models
-
 struct SystemSetting: Identifiable {
     let id = UUID()
     let category: SettingCategory
@@ -163,8 +151,6 @@ enum SettingCategory: String, CaseIterable {
     case integrations = "Integrations"
 }
 
-// MARK: - Alert Models
-
 struct SystemAlert: Identifiable {
     let id = UUID()
     let title: String
@@ -180,7 +166,7 @@ enum AlertSeverity: String, CaseIterable {
     case high = "High"
     case medium = "Medium"
     case low = "Low"
-    
+
     var color: String {
         switch self {
         case .critical: return "red"
@@ -191,16 +177,14 @@ enum AlertSeverity: String, CaseIterable {
     }
 }
 
-// MARK: - Sample Data
-
 extension NationalDashboard {
     static let sample = NationalDashboard(
         totalDistricts: 45,
         totalCities: 280,
-        totalConsumers: 8500000,
+        totalConsumers: 8_500_000,
         totalWorkers: 12500,
-        totalMeters: 8200000,
-        nationalRevenue: 1250000000,
+        totalMeters: 8_200_000,
+        nationalRevenue: 1_250_000_000,
         totalPowerOutages: 156,
         totalComplaints: 3450,
         avgCollectionRate: 92.8,
@@ -216,8 +200,8 @@ extension DistrictOverview {
             districtHeadName: "Ramesh Patel",
             totalCities: 8,
             totalConsumers: 125000,
-            monthlyRevenue: 15750000,
-            revenueTarget: 15000000,
+            monthlyRevenue: 15_750_000,
+            revenueTarget: 15_000_000,
             collectionRate: 94.5,
             powerOutages: 12,
             complaints: 245,
@@ -230,8 +214,8 @@ extension DistrictOverview {
             districtHeadName: "Priya Sharma",
             totalCities: 12,
             totalConsumers: 285000,
-            monthlyRevenue: 42500000,
-            revenueTarget: 40000000,
+            monthlyRevenue: 42_500_000,
+            revenueTarget: 40_000_000,
             collectionRate: 96.2,
             powerOutages: 8,
             complaints: 412,
@@ -244,8 +228,8 @@ extension DistrictOverview {
             districtHeadName: "Amit Kumar",
             totalCities: 15,
             totalConsumers: 320000,
-            monthlyRevenue: 48000000,
-            revenueTarget: 50000000,
+            monthlyRevenue: 48_000_000,
+            revenueTarget: 50_000_000,
             collectionRate: 89.5,
             powerOutages: 25,
             complaints: 580,
@@ -258,8 +242,8 @@ extension DistrictOverview {
             districtHeadName: "Sneha Reddy",
             totalCities: 10,
             totalConsumers: 195000,
-            monthlyRevenue: 28500000,
-            revenueTarget: 27000000,
+            monthlyRevenue: 28_500_000,
+            revenueTarget: 27_000_000,
             collectionRate: 93.8,
             powerOutages: 15,
             complaints: 320,
@@ -272,14 +256,14 @@ extension DistrictOverview {
             districtHeadName: "Rajesh Banerjee",
             totalCities: 9,
             totalConsumers: 165000,
-            monthlyRevenue: 22000000,
-            revenueTarget: 25000000,
+            monthlyRevenue: 22_000_000,
+            revenueTarget: 25_000_000,
             collectionRate: 85.2,
             powerOutages: 32,
             complaints: 495,
             performanceScore: 72.0,
             status: .needsImprovement
-        )
+        ),
     ]
 }
 
@@ -288,8 +272,8 @@ extension StatePerformance {
         StatePerformance(
             stateName: "Maharashtra",
             totalDistricts: 8,
-            totalConsumers: 1250000,
-            monthlyRevenue: 185000000,
+            totalConsumers: 1_250_000,
+            monthlyRevenue: 185_000_000,
             collectionRate: 95.5,
             powerReliability: 98.5,
             avgResponseTime: "2.5 hrs",
@@ -299,7 +283,7 @@ extension StatePerformance {
             stateName: "Gujarat",
             totalDistricts: 6,
             totalConsumers: 850000,
-            monthlyRevenue: 125000000,
+            monthlyRevenue: 125_000_000,
             collectionRate: 94.2,
             powerReliability: 97.8,
             avgResponseTime: "3.0 hrs",
@@ -309,7 +293,7 @@ extension StatePerformance {
             stateName: "Karnataka",
             totalDistricts: 7,
             totalConsumers: 950000,
-            monthlyRevenue: 142000000,
+            monthlyRevenue: 142_000_000,
             collectionRate: 92.8,
             powerReliability: 96.5,
             avgResponseTime: "3.5 hrs",
@@ -318,13 +302,13 @@ extension StatePerformance {
         StatePerformance(
             stateName: "Tamil Nadu",
             totalDistricts: 9,
-            totalConsumers: 1150000,
-            monthlyRevenue: 168000000,
+            totalConsumers: 1_150_000,
+            monthlyRevenue: 168_000_000,
             collectionRate: 91.5,
             powerReliability: 95.8,
             avgResponseTime: "4.0 hrs",
             status: .performing
-        )
+        ),
     ]
 }
 
@@ -336,7 +320,7 @@ extension DistrictHeadOverview {
             phone: "+91 98765 00001",
             districtAssigned: "Ahmedabad District",
             state: "Gujarat",
-            joiningDate: Date().addingTimeInterval(-730*24*60*60),
+            joiningDate: Date().addingTimeInterval(-730 * 24 * 60 * 60),
             totalCityHeads: 8,
             performanceRating: 4.6,
             revenueAchievement: 105.0,
@@ -348,7 +332,7 @@ extension DistrictHeadOverview {
             phone: "+91 98765 00002",
             districtAssigned: "Mumbai District",
             state: "Maharashtra",
-            joiningDate: Date().addingTimeInterval(-640*24*60*60),
+            joiningDate: Date().addingTimeInterval(-640 * 24 * 60 * 60),
             totalCityHeads: 12,
             performanceRating: 4.8,
             revenueAchievement: 106.3,
@@ -360,12 +344,12 @@ extension DistrictHeadOverview {
             phone: "+91 98765 00003",
             districtAssigned: "Delhi District",
             state: "Delhi",
-            joiningDate: Date().addingTimeInterval(-450*24*60*60),
+            joiningDate: Date().addingTimeInterval(-450 * 24 * 60 * 60),
             totalCityHeads: 15,
             performanceRating: 3.9,
             revenueAchievement: 96.0,
             status: .active
-        )
+        ),
     ]
 }
 
@@ -375,7 +359,7 @@ extension NationalReport {
             reportTitle: "Q4 2025 Financial Summary",
             reportType: .financial,
             scope: .national,
-            generatedDate: Date().addingTimeInterval(-1*24*60*60),
+            generatedDate: Date().addingTimeInterval(-1 * 24 * 60 * 60),
             period: "Oct - Dec 2025",
             fileSize: "8.5 MB",
             status: .ready
@@ -384,7 +368,7 @@ extension NationalReport {
             reportTitle: "November Operations Report",
             reportType: .operations,
             scope: .national,
-            generatedDate: Date().addingTimeInterval(-3*24*60*60),
+            generatedDate: Date().addingTimeInterval(-3 * 24 * 60 * 60),
             period: "November 2025",
             fileSize: "6.2 MB",
             status: .ready
@@ -393,11 +377,11 @@ extension NationalReport {
             reportTitle: "Maharashtra State Performance",
             reportType: .performance,
             scope: .state,
-            generatedDate: Date().addingTimeInterval(-5*24*60*60),
+            generatedDate: Date().addingTimeInterval(-5 * 24 * 60 * 60),
             period: "November 2025",
             fileSize: "4.8 MB",
             status: .ready
-        )
+        ),
     ]
 }
 
@@ -405,10 +389,11 @@ extension SystemAlert {
     static let samples: [SystemAlert] = [
         SystemAlert(
             title: "Critical Power Outage",
-            message: "Multiple areas in Kolkata District experiencing power outage",
+            message:
+                "Multiple areas in Kolkata District experiencing power outage",
             severity: .critical,
             district: "Kolkata District",
-            timestamp: Date().addingTimeInterval(-30*60),
+            timestamp: Date().addingTimeInterval(-30 * 60),
             isResolved: false
         ),
         SystemAlert(
@@ -416,7 +401,7 @@ extension SystemAlert {
             message: "Delhi District is 4% below monthly revenue target",
             severity: .high,
             district: "Delhi District",
-            timestamp: Date().addingTimeInterval(-2*60*60),
+            timestamp: Date().addingTimeInterval(-2 * 60 * 60),
             isResolved: false
         ),
         SystemAlert(
@@ -424,8 +409,8 @@ extension SystemAlert {
             message: "Unusual spike in complaints in Mumbai District",
             severity: .medium,
             district: "Mumbai District",
-            timestamp: Date().addingTimeInterval(-5*60*60),
+            timestamp: Date().addingTimeInterval(-5 * 60 * 60),
             isResolved: true
-        )
+        ),
     ]
 }

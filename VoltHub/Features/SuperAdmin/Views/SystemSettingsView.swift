@@ -2,7 +2,7 @@ import SwiftUI
 
 struct SystemSettingsView: View {
     @State private var selectedCategory: SettingCategory = .billing
-    
+
     var body: some View {
         VStack(spacing: 0) {
             HStack {
@@ -22,7 +22,7 @@ struct SystemSettingsView: View {
             }
             .padding()
             .background(Color(red: 0.96, green: 0.97, blue: 0.98))
-            
+
             ScrollView {
                 VStack(spacing: 20) {
                     switch selectedCategory {
@@ -48,7 +48,7 @@ struct SettingCategoryChip: View {
     let category: SettingCategory
     let isSelected: Bool
     let action: () -> Void
-    
+
     var body: some View {
         Button(action: action) {
             HStack {
@@ -59,12 +59,16 @@ struct SettingCategoryChip: View {
             .fontWeight(isSelected ? .semibold : .regular)
             .padding(.horizontal, 16)
             .padding(.vertical, 8)
-            .background(isSelected ? Color(red: 0.2, green: 0.5, blue: 0.8) : Color(red: 0.94, green: 0.95, blue: 0.96))
+            .background(
+                isSelected
+                    ? Color(red: 0.2, green: 0.5, blue: 0.8)
+                    : Color(red: 0.94, green: 0.95, blue: 0.96)
+            )
             .foregroundColor(isSelected ? .white : .primary)
             .cornerRadius(20)
         }
     }
-    
+
     private var categoryIcon: String {
         switch category {
         case .billing: return "indianrupeesign.circle.fill"
@@ -81,54 +85,54 @@ struct BillingSettingsSection: View {
     @State private var lateFeeEnabled = true
     @State private var gracePeriodDays = "7"
     @State private var lateFeePercentage = "2.0"
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             Text("Billing Configuration")
                 .font(.title3)
                 .fontWeight(.bold)
-            
+
             SettingCard {
                 VStack(spacing: 16) {
                     SettingToggleRow(
                         icon: "calendar.badge.clock",
                         title: "Automatic Billing",
-                        description: "Generate bills automatically on cycle date",
+                        description:
+                            "Generate bills automatically on cycle date",
                         isOn: $autoBillingEnabled
                     )
-                    
+
                     Divider()
-                    
+
                     SettingToggleRow(
                         icon: "exclamationmark.circle",
                         title: "Late Fee Charges",
                         description: "Apply late fees for overdue payments",
                         isOn: $lateFeeEnabled
                     )
-                    
-                   
+
                 }
             }
-            
-//            SettingCard {
-//                VStack(spacing: 16) {
-//                    SettingToggleRow(
-//                        icon: "creditcard",
-//                        title: "Online Payment Gateway",
-//                        description: "Enable digital payment methods",
-//                        isOn: .constant(true)
-//                    )
-//                    
-//                    Divider()
-//                    
-//                    SettingToggleRow(
-//                        icon: "doc.text",
-//                        title: "E-Bill Generation",
-//                        description: "Send bills via email and SMS",
-//                        isOn: .constant(true)
-//                    )
-//                }
-//            }
+
+            //            SettingCard {
+            //                VStack(spacing: 16) {
+            //                    SettingToggleRow(
+            //                        icon: "creditcard",
+            //                        title: "Online Payment Gateway",
+            //                        description: "Enable digital payment methods",
+            //                        isOn: .constant(true)
+            //                    )
+            //
+            //                    Divider()
+            //
+            //                    SettingToggleRow(
+            //                        icon: "doc.text",
+            //                        title: "E-Bill Generation",
+            //                        description: "Send bills via email and SMS",
+            //                        isOn: .constant(true)
+            //                    )
+            //                }
+            //            }
         }
     }
 }
@@ -136,52 +140,54 @@ struct BillingSettingsSection: View {
 struct OperationsSettingsSection: View {
     @State private var autoAssignTasks = true
     @State private var maintenanceMode = false
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             Text("Operations Configuration")
                 .font(.title3)
                 .fontWeight(.bold)
-            
+
             SettingCard {
                 VStack(spacing: 16) {
                     SettingToggleRow(
                         icon: "arrow.triangle.branch",
                         title: "Auto Task Assignment",
-                        description: "Automatically assign tasks to available workers",
+                        description:
+                            "Automatically assign tasks to available workers",
                         isOn: $autoAssignTasks
                     )
-                    
+
                     Divider()
-                    
+
                     SettingToggleRow(
                         icon: "exclamationmark.triangle",
                         title: "Maintenance Mode",
-                        description: "Restrict access during system maintenance",
+                        description:
+                            "Restrict access during system maintenance",
                         isOn: $maintenanceMode
                     )
                 }
             }
-//            
-//            SettingCard {
-//                VStack(spacing: 16) {
-//                    SettingActionRow(
-//                        icon: "arrow.clockwise",
-//                        title: "Sync All Data",
-//                        description: "Synchronize data across all districts",
-//                        actionTitle: "Sync Now"
-//                    )
-//                    
-//                    Divider()
-//                    
-//                    SettingActionRow(
-//                        icon: "trash",
-//                        title: "Clear Cache",
-//                        description: "Remove temporary system cache",
-//                        actionTitle: "Clear"
-//                    )
-//                }
-//            }
+            //
+            //            SettingCard {
+            //                VStack(spacing: 16) {
+            //                    SettingActionRow(
+            //                        icon: "arrow.clockwise",
+            //                        title: "Sync All Data",
+            //                        description: "Synchronize data across all districts",
+            //                        actionTitle: "Sync Now"
+            //                    )
+            //
+            //                    Divider()
+            //
+            //                    SettingActionRow(
+            //                        icon: "trash",
+            //                        title: "Clear Cache",
+            //                        description: "Remove temporary system cache",
+            //                        actionTitle: "Clear"
+            //                    )
+            //                }
+            //            }
         }
     }
 }
@@ -189,13 +195,13 @@ struct OperationsSettingsSection: View {
 struct SecuritySettingsSection: View {
     @State private var twoFactorAuth = true
     @State private var sessionTimeout = "30"
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             Text("Security Configuration")
                 .font(.title3)
                 .fontWeight(.bold)
-  
+
             SettingCard {
                 VStack(spacing: 16) {
                     SettingToggleRow(
@@ -204,37 +210,37 @@ struct SecuritySettingsSection: View {
                         description: "Require 2FA for all admin accounts",
                         isOn: $twoFactorAuth
                     )
-                    
+
                     Divider()
-                    
-//                    SettingInputRow(
-//                        icon: "clock",
-//                        title: "Session Timeout",
-//                        value: $sessionTimeout,
-//                        suffix: "minutes"
-//                    )
+
+                    //                    SettingInputRow(
+                    //                        icon: "clock",
+                    //                        title: "Session Timeout",
+                    //                        value: $sessionTimeout,
+                    //                        suffix: "minutes"
+                    //                    )
                 }
             }
-            
-//            SettingCard {
-//                VStack(spacing: 16) {
-//                    SettingActionRow(
-//                        icon: "key",
-//                        title: "Reset All Passwords",
-//                        description: "Force password reset for all users",
-//                        actionTitle: "Reset"
-//                    )
-//                    
-//                    Divider()
-//                    
-//                    SettingActionRow(
-//                        icon: "doc.text.magnifyingglass",
-//                        title: "View Audit Logs",
-//                        description: "Access system activity logs",
-//                        actionTitle: "View"
-//                    )
-//                }
-//            }
+
+            //            SettingCard {
+            //                VStack(spacing: 16) {
+            //                    SettingActionRow(
+            //                        icon: "key",
+            //                        title: "Reset All Passwords",
+            //                        description: "Force password reset for all users",
+            //                        actionTitle: "Reset"
+            //                    )
+            //
+            //                    Divider()
+            //
+            //                    SettingActionRow(
+            //                        icon: "doc.text.magnifyingglass",
+            //                        title: "View Audit Logs",
+            //                        description: "Access system activity logs",
+            //                        actionTitle: "View"
+            //                    )
+            //                }
+            //            }
         }
     }
 }
@@ -243,13 +249,13 @@ struct NotificationsSettingsSection: View {
     @State private var pushNotifications = true
     @State private var emailNotifications = true
     @State private var smsNotifications = false
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             Text("Notification Configuration")
                 .font(.title3)
                 .fontWeight(.bold)
-            
+
             SettingCard {
                 VStack(spacing: 16) {
                     SettingToggleRow(
@@ -258,18 +264,18 @@ struct NotificationsSettingsSection: View {
                         description: "Send in-app notifications",
                         isOn: $pushNotifications
                     )
-                    
+
                     Divider()
-                    
+
                     SettingToggleRow(
                         icon: "envelope",
                         title: "Email Notifications",
                         description: "Send email alerts",
                         isOn: $emailNotifications
                     )
-                    
+
                     Divider()
-                    
+
                     SettingToggleRow(
                         icon: "message",
                         title: "SMS Notifications",
@@ -288,7 +294,7 @@ struct IntegrationsSettingsSection: View {
             Text("Integration Configuration")
                 .font(.title3)
                 .fontWeight(.bold)
-            
+
             SettingCard {
                 VStack(spacing: 16) {
                     SettingToggleRow(
@@ -297,9 +303,9 @@ struct IntegrationsSettingsSection: View {
                         description: "Automatic cloud backup enabled",
                         isOn: .constant(true)
                     )
-                    
+
                     Divider()
-                    
+
                     SettingToggleRow(
                         icon: "chart.bar.xaxis",
                         title: "Analytics Integration",
@@ -308,7 +314,7 @@ struct IntegrationsSettingsSection: View {
                     )
                 }
             }
-            
+
             //            SettingCard {
             //                VStack(spacing: 16) {
             //                    SettingActionRow(
@@ -327,18 +333,18 @@ struct IntegrationsSettingsSection: View {
             //                        actionTitle: "Manage"
             //                    )
             //                }
-     
+
         }
     }
 }
 
 struct SettingCard<Content: View>: View {
     let content: Content
-    
+
     init(@ViewBuilder content: () -> Content) {
         self.content = content()
     }
-    
+
     var body: some View {
         content
             .padding()
@@ -352,26 +358,26 @@ struct SettingToggleRow: View {
     let title: String
     let description: String
     @Binding var isOn: Bool
-    
+
     var body: some View {
         HStack(alignment: .top, spacing: 12) {
             Image(systemName: icon)
                 .font(.title3)
                 .foregroundColor(Color(red: 0.3, green: 0.4, blue: 0.5))
                 .frame(width: 30)
-            
+
             VStack(alignment: .leading, spacing: 4) {
                 Text(title)
                     .font(.subheadline)
                     .fontWeight(.semibold)
-                
+
                 Text(description)
                     .font(.caption)
                     .foregroundColor(.secondary)
             }
-            
+
             Spacer()
-            
+
             Toggle("", isOn: $isOn)
                 .labelsHidden()
         }
@@ -383,27 +389,27 @@ struct SettingTextFieldRow: View {
     let title: String
     @Binding var value: String
     let suffix: String
-    
+
     var body: some View {
         HStack(spacing: 12) {
             Image(systemName: icon)
                 .font(.title3)
                 .foregroundColor(Color(red: 0.3, green: 0.4, blue: 0.5))
                 .frame(width: 30)
-            
+
             Text(title)
                 .font(.subheadline)
                 .fontWeight(.semibold)
-            
+
             Spacer()
-            
+
             HStack {
                 TextField("", text: $value)
                     .font(.subheadline)
                     .multilineTextAlignment(.trailing)
                     .frame(width: 60)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
-                
+
                 Text(suffix)
                     .font(.caption)
                     .foregroundColor(.secondary)
@@ -417,26 +423,26 @@ struct SettingButtonRow: View {
     let title: String
     let description: String
     let actionTitle: String
-    
+
     var body: some View {
         HStack(alignment: .top, spacing: 12) {
             Image(systemName: icon)
                 .font(.title3)
                 .foregroundColor(Color(red: 0.3, green: 0.4, blue: 0.5))
                 .frame(width: 30)
-            
+
             VStack(alignment: .leading, spacing: 4) {
                 Text(title)
                     .font(.subheadline)
                     .fontWeight(.semibold)
-                
+
                 Text(description)
                     .font(.caption)
                     .foregroundColor(.secondary)
             }
-            
+
             Spacer()
-            
+
             Button(action: {}) {
                 Text(actionTitle)
                     .font(.caption)
