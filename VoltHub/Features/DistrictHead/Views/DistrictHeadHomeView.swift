@@ -4,19 +4,20 @@ struct DistrictHeadHomeView: View {
     @EnvironmentObject var themeManager: ThemeManager
     @State private var isDrawerOpen = false
     @State private var selectedSection: DistrictSection = .dashboard
-    
+
     var body: some View {
         ZStack {
             VStack(spacing: 0) {
                 HStack {
-                    Button(action: { withAnimation { isDrawerOpen.toggle() } }) {
+                    Button(action: { withAnimation { isDrawerOpen.toggle() } })
+                    {
                         Image(systemName: "line.3.horizontal")
                             .font(.title2)
                             .foregroundColor(themeManager.current.textOnPrimary)
                     }
-                    
+
                     Spacer()
-                    
+
                     HStack(spacing: 8) {
                         Image(systemName: "building.2.fill")
                             .font(.title3)
@@ -24,9 +25,9 @@ struct DistrictHeadHomeView: View {
                             .font(.headline)
                     }
                     .foregroundColor(themeManager.current.textOnPrimary)
-                    
+
                     Spacer()
-                    
+
                     Button(action: {}) {
                         Image(systemName: "bell.fill")
                             .font(.title3)
@@ -35,10 +36,10 @@ struct DistrictHeadHomeView: View {
                 }
                 .padding()
                 .background(themeManager.current.primary)
-                
+
                 mainContent
             }
-            
+
             if isDrawerOpen {
                 Color.black.opacity(0.3)
                     .ignoresSafeArea()
@@ -47,7 +48,7 @@ struct DistrictHeadHomeView: View {
                             isDrawerOpen = false
                         }
                     }
-                
+
                 HStack {
                     drawer
                         .transition(.move(edge: .leading))
@@ -56,7 +57,7 @@ struct DistrictHeadHomeView: View {
             }
         }
     }
-    
+
     @ViewBuilder
     private var mainContent: some View {
         switch selectedSection {
@@ -72,27 +73,27 @@ struct DistrictHeadHomeView: View {
             DistrictAnalyticsView()
         }
     }
-    
+
     private var drawer: some View {
         VStack(alignment: .leading, spacing: 0) {
             VStack(alignment: .leading, spacing: 8) {
                 Image(systemName: "building.2.fill")
                     .font(.system(size: 40))
                     .foregroundColor(themeManager.current.primary)
-                
+
                 Text("District Head")
                     .font(.title2)
                     .fontWeight(.bold)
-                
+
                 Text("Ahmedabad District")
                     .font(.subheadline)
                     .foregroundColor(.secondary)
             }
             .padding()
             .frame(maxWidth: .infinity, alignment: .leading)
-            
+
             Divider()
-            
+
             ScrollView {
                 VStack(spacing: 4) {
                     DistrictMenuItem(
@@ -103,7 +104,7 @@ struct DistrictHeadHomeView: View {
                         selectedSection = .dashboard
                         withAnimation { isDrawerOpen = false }
                     }
-                    
+
                     DistrictMenuItem(
                         icon: "building.2.fill",
                         text: "Cities Performance",
@@ -112,7 +113,7 @@ struct DistrictHeadHomeView: View {
                         selectedSection = .cities
                         withAnimation { isDrawerOpen = false }
                     }
-                    
+
                     DistrictMenuItem(
                         icon: "person.3.fill",
                         text: "City Heads",
@@ -121,7 +122,7 @@ struct DistrictHeadHomeView: View {
                         selectedSection = .cityHeads
                         withAnimation { isDrawerOpen = false }
                     }
-                    
+
                     DistrictMenuItem(
                         icon: "doc.text.fill",
                         text: "Reports",
@@ -130,7 +131,7 @@ struct DistrictHeadHomeView: View {
                         selectedSection = .reports
                         withAnimation { isDrawerOpen = false }
                     }
-                    
+
                     DistrictMenuItem(
                         icon: "chart.line.uptrend.xyaxis",
                         text: "Analytics",
@@ -142,11 +143,11 @@ struct DistrictHeadHomeView: View {
                 }
                 .padding(.vertical, 8)
             }
-            
+
             Spacer()
-            
+
             Divider()
-            
+
             Button(action: {}) {
                 HStack {
                     Image(systemName: "rectangle.portrait.and.arrow.right")
@@ -167,7 +168,7 @@ struct DistrictMenuItem: View {
     let isSelected: Bool
     let action: () -> Void
     @EnvironmentObject var themeManager: ThemeManager
-    
+
     var body: some View {
         Button(action: action) {
             HStack {
@@ -182,10 +183,15 @@ struct DistrictMenuItem: View {
                         .frame(width: 8, height: 8)
                 }
             }
-            .foregroundColor(isSelected ? themeManager.current.primary : .primary)
+            .foregroundColor(
+                isSelected ? themeManager.current.primary : .primary
+            )
             .padding(.horizontal)
             .padding(.vertical, 12)
-            .background(isSelected ? themeManager.current.primary.opacity(0.1) : Color.clear)
+            .background(
+                isSelected
+                    ? themeManager.current.primary.opacity(0.1) : Color.clear
+            )
         }
     }
 }

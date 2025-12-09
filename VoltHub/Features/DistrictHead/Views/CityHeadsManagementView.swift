@@ -5,7 +5,7 @@ struct CityHeadsManagementView: View {
     @State private var cityHeads = CityHeadInfo.samples
     @State private var searchText = ""
     @State private var selectedStatus: CityHeadStatus?
-    
+
     var body: some View {
         VStack(spacing: 16) {
             HStack(spacing: 12) {
@@ -13,7 +13,7 @@ struct CityHeadsManagementView: View {
                     .padding()
                     .background(Color(red: 0.96, green: 0.97, blue: 0.98))
                     .cornerRadius(10)
-                
+
                 Button(action: {}) {
                     HStack {
                         Image(systemName: "line.3.horizontal.decrease.circle")
@@ -28,14 +28,14 @@ struct CityHeadsManagementView: View {
                 }
             }
             .padding(.horizontal)
-            
+
             HStack {
                 Text("\(filteredCityHeads.count) city heads")
                     .font(.subheadline)
                     .foregroundColor(.secondary)
-                
+
                 Spacer()
-                
+
                 Button(action: {}) {
                     HStack {
                         Image(systemName: "person.badge.plus")
@@ -51,12 +51,14 @@ struct CityHeadsManagementView: View {
                 .buttonStyle(PlainButtonStyle())
             }
             .padding(.horizontal)
-            
+
             if filteredCityHeads.isEmpty {
                 EmptyStateView(
                     icon: "person.3",
                     message: "No city heads found",
-                    description: cityHeads.isEmpty ? "No city heads assigned yet" : "Try adjusting your filters"
+                    description: cityHeads.isEmpty
+                        ? "No city heads assigned yet"
+                        : "Try adjusting your filters"
                 )
             } else {
                 ScrollView {
@@ -71,22 +73,23 @@ struct CityHeadsManagementView: View {
         }
         .padding(.top)
     }
-    
+
     private var filteredCityHeads: [CityHeadInfo] {
         var result = cityHeads
-        
+
         if let status = selectedStatus {
             result = result.filter { $0.status == status }
         }
-        
+
         if !searchText.isEmpty {
             result = result.filter {
-                $0.name.localizedCaseInsensitiveContains(searchText) ||
-                $0.cityAssigned.localizedCaseInsensitiveContains(searchText) ||
-                $0.email.localizedCaseInsensitiveContains(searchText)
+                $0.name.localizedCaseInsensitiveContains(searchText)
+                    || $0.cityAssigned.localizedCaseInsensitiveContains(
+                        searchText
+                    ) || $0.email.localizedCaseInsensitiveContains(searchText)
             }
         }
-        
+
         return result.sorted { $0.performanceRating > $1.performanceRating }
     }
 }
@@ -94,41 +97,45 @@ struct CityHeadsManagementView: View {
 struct CityHeadCard: View {
     let cityHead: CityHeadInfo
     @EnvironmentObject var themeManager: ThemeManager
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack(alignment: .top) {
                 Image(systemName: "person.circle.fill")
                     .font(.system(size: 50))
                     .foregroundColor(themeManager.current.primary)
-                
+
                 VStack(alignment: .leading, spacing: 4) {
                     Text(cityHead.name)
                         .font(.headline)
-                    
+
                     Text(cityHead.cityAssigned)
                         .font(.subheadline)
                         .foregroundColor(.secondary)
-                    
+
                     HStack(spacing: 4) {
                         ForEach(0..<5) { index in
-                            Image(systemName: index < Int(cityHead.performanceRating) ? "star.fill" : "star")
-                                .font(.caption)
-                                .foregroundColor(.orange)
+                            Image(
+                                systemName: index
+                                    < Int(cityHead.performanceRating)
+                                    ? "star.fill" : "star"
+                            )
+                            .font(.caption)
+                            .foregroundColor(.orange)
                         }
                         Text(String(format: "%.1f", cityHead.performanceRating))
                             .font(.caption)
                             .foregroundColor(.secondary)
                     }
                 }
-                
+
                 Spacer()
-                
+
                 CityHeadStatusBadge(status: cityHead.status)
             }
-            
+
             Divider()
-            
+
             VStack(spacing: 8) {
                 HStack {
                     Image(systemName: "envelope.fill")
@@ -139,7 +146,7 @@ struct CityHeadCard: View {
                         .foregroundColor(Color(red: 0.3, green: 0.4, blue: 0.5))
                     Spacer()
                 }
-                
+
                 HStack {
                     Image(systemName: "phone.fill")
                         .foregroundColor(.secondary)
@@ -149,7 +156,7 @@ struct CityHeadCard: View {
                         .foregroundColor(Color(red: 0.3, green: 0.4, blue: 0.5))
                     Spacer()
                 }
-                
+
                 HStack {
                     Image(systemName: "calendar")
                         .foregroundColor(.secondary)
@@ -160,29 +167,35 @@ struct CityHeadCard: View {
                     Spacer()
                 }
             }
-            
+
             Divider()
-            
-            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
+
+            LazyVGrid(
+                columns: [
+                    GridItem(.flexible()), GridItem(.flexible()),
+                    GridItem(.flexible()),
+                ],
+                spacing: 12
+            ) {
                 CityHeadStat(
                     icon: "person.fill.checkmark",
                     label: "Workers",
                     value: "\(cityHead.totalWorkers)"
                 )
-                
+
                 CityHeadStat(
                     icon: "checkmark.circle.fill",
                     label: "Completed",
                     value: "\(cityHead.tasksCompleted)"
                 )
-                
+
                 CityHeadStat(
                     icon: "exclamationmark.circle.fill",
                     label: "Active Issues",
                     value: "\(cityHead.activeIssues)"
                 )
             }
-            
+
             HStack(spacing: 12) {
                 Button(action: {}) {
                     HStack {
@@ -198,7 +211,7 @@ struct CityHeadCard: View {
                     .cornerRadius(8)
                 }
                 .buttonStyle(PlainButtonStyle())
-                
+
                 Button(action: {}) {
                     HStack {
                         Image(systemName: "info.circle")
@@ -225,17 +238,17 @@ struct CityHeadStat: View {
     let icon: String
     let label: String
     let value: String
-    
+
     var body: some View {
         VStack(spacing: 4) {
             Image(systemName: icon)
                 .foregroundColor(Color(red: 0.2, green: 0.5, blue: 0.8))
                 .font(.title3)
-            
+
             Text(value)
                 .font(.headline)
                 .fontWeight(.bold)
-            
+
             Text(label)
                 .font(.caption2)
                 .foregroundColor(.secondary)
@@ -249,7 +262,7 @@ struct CityHeadStat: View {
 
 struct CityHeadStatusBadge: View {
     let status: CityHeadStatus
-    
+
     var body: some View {
         Text(status.rawValue)
             .font(.caption)
@@ -260,7 +273,7 @@ struct CityHeadStatusBadge: View {
             .foregroundColor(statusColor)
             .cornerRadius(6)
     }
-    
+
     private var statusColor: Color {
         switch status {
         case .active: return .green
@@ -276,7 +289,7 @@ struct CityHeadFilterChip: View {
     let isSelected: Bool
     let action: () -> Void
     @EnvironmentObject var themeManager: ThemeManager
-    
+
     var body: some View {
         Button(action: action) {
             Text(title)
@@ -284,8 +297,14 @@ struct CityHeadFilterChip: View {
                 .fontWeight(isSelected ? .semibold : .regular)
                 .padding(.horizontal, 16)
                 .padding(.vertical, 8)
-                .background(isSelected ? themeManager.current.primary : Color(red: 0.94, green: 0.95, blue: 0.96))
-                .foregroundColor(isSelected ? themeManager.current.textOnPrimary : .primary)
+                .background(
+                    isSelected
+                        ? themeManager.current.primary
+                        : Color(red: 0.94, green: 0.95, blue: 0.96)
+                )
+                .foregroundColor(
+                    isSelected ? themeManager.current.textOnPrimary : .primary
+                )
                 .cornerRadius(20)
         }
     }
