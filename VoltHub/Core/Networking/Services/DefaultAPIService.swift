@@ -4,13 +4,16 @@ final class DefaultAPIService: APIService {
 
     private let baseURL: URL
     private let urlSession: URLSession
+    private let interceptors: [RequestInterceptor]
 
     init(
         baseURL: URL,
-        urlSession: URLSession = .shared
+        urlSession: URLSession = .shared,
+        interceptors: [RequestInterceptor] = []
     ) {
         self.baseURL = baseURL
         self.urlSession = urlSession
+        self.interceptors = interceptors
     }
 
     func request<T: Decodable>(_ endpoint: Endpoint) async throws -> T {
@@ -21,16 +24,33 @@ final class DefaultAPIService: APIService {
             throw APIError.invalidURL
         }
 
+        var preparedRequest = request
+        for interceptor in interceptors {
+            preparedRequest = interceptor.prepare(
+                preparedRequest,
+                endpoint: endpoint
+            )
+        }
+
         let data: Data
         let response: URLResponse
         do {
-            (data, response) = try await urlSession.data(for: request)
+            (data, response) = try await urlSession.data(for: preparedRequest)
         } catch {
             if (error as NSError).code == NSURLErrorTimedOut {
                 throw APIError.timeout
             } else {
                 throw APIError.network(error)
             }
+        }
+
+        for interceptor in interceptors {
+            interceptor.didReceive(
+                response,
+                data: data,
+                for: preparedRequest,
+                endpoint: endpoint
+            )
         }
 
         guard let httpResponse = response as? HTTPURLResponse else {

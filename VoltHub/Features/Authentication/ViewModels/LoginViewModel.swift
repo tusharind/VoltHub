@@ -49,7 +49,7 @@ final class LoginViewModel: ObservableObject {
             "password": AnyEncodable(password),
         ]
 
-        let endpoint = Endpoint(path: "/login", method: .post, body: body)
+    let endpoint = Endpoint(path: "/login", method: .post, body: body, requiresAuth: false)
 
         do {
             let response: LoginResponse = try await apiService.request(endpoint)

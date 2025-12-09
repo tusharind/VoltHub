@@ -42,7 +42,7 @@ struct LoginView: View {
                     .labelStyle(.titleAndIcon)
                     .padding(.horizontal, 10)
                     .padding(.vertical, 6)
-                    .background(Color(.systemGray6))
+                    .background(Color(red: 0.96, green: 0.97, blue: 0.98))
                     .clipShape(
                         RoundedRectangle(cornerRadius: 8, style: .continuous)
                     )
@@ -54,7 +54,7 @@ struct LoginView: View {
                 .autocapitalization(.none)
                 .keyboardType(.emailAddress)
                 .padding()
-                .background(Color(.systemGray6))
+                .background(Color(red: 0.96, green: 0.97, blue: 0.98))
                 .cornerRadius(8)
 
             ZStack(alignment: .trailing) {
@@ -66,7 +66,7 @@ struct LoginView: View {
                     }
                 }
                 .padding()
-                .background(Color(.systemGray6))
+                .background(Color(red: 0.96, green: 0.97, blue: 0.98))
                 .cornerRadius(8)
 
                 Button(action: {
@@ -76,7 +76,7 @@ struct LoginView: View {
                         systemName: viewModel.isPasswordVisible
                             ? "eye.slash" : "eye"
                     )
-                    .foregroundColor(.gray)
+                    .foregroundColor(Color(red: 0.3, green: 0.4, blue: 0.5))
                     .padding(.trailing, 10)
                 }
             }
@@ -124,6 +124,7 @@ struct LoginView: View {
                 }
             }
             .disabled(!viewModel.isFormValid || viewModel.state.isLoading)
+
         }
         .padding()
         .tint(theme.current.primary)

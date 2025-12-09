@@ -6,6 +6,7 @@ struct Endpoint {
     var query: [String: String] = [:]
     var headers: [String: String] = [:]
     var body: Encodable? = nil
+    var requiresAuth: Bool = true
 
     func makeRequest(baseURL: URL) throws -> URLRequest {
         var url = baseURL.appendingPathComponent(path)
